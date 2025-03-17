@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('build') {
             steps {
-                timeout(time: 5, unit: 'SECONDS') { // Timeout de 5 segundos
+                timeout(time: 10, unit: 'SECONDS') { // Timeout de 10 segundos
                     retry(3) { // Reintenta hasta 3 veces si falla
                         sh 'mvn --version'
                     }
@@ -16,7 +16,7 @@ pipeline {
 
         stage('test') {
             steps {
-                timeout(time: 3, unit: 'SECONDS') { // Timeout de 3 segundos
+                timeout(time: 20, unit: 'SECONDS') { // Timeout de 20 segundos
                     retry(2) { // Reintenta hasta 2 veces si falla
                         sh 'echo Running tests...' // Aquí irían los comandos de prueba
                     }
