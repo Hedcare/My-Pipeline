@@ -1,16 +1,10 @@
 pipeline {
     agent none
-    options {
-        timeout(time: 30, unit: 'SECONDS') // Timeout global de 30 segundos
-    }
-    environment {
-        JAVA_HOME = '/usr/lib/jvm/java-21-openjdk'
-    }
     stages {
         stage('Build') {
             agent { docker { image 'maven:3.9.9-eclipse-temurin-21-alpine' } }
             steps {
-                echo "Building with JAVA_HOME=$JAVA_HOME"
+                echo "Building with Maven"
                 sh 'mvn clean install'
             }
         }
@@ -18,14 +12,8 @@ pipeline {
         stage('Test') {
             agent { docker { image 'maven:3.9.9-eclipse-temurin-21-alpine' } }
             steps {
-                echo "Running tests with JAVA_HOME=$JAVA_HOME"
+                echo "Running tests with Maven"
                 sh 'mvn test'
-            }
-            post {
-                always {
-                    archiveArtifacts artifacts: '**/target/*.jar', allowEmptyArchive: true
-                    echo "Test results and artifacts have been archived"
-                }
             }
         }
 
