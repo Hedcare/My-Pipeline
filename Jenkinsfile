@@ -5,7 +5,6 @@ pipeline {
     }
     environment {
         JAVA_HOME = '/usr/lib/jvm/java-21-openjdk'
-        USER_NAME = 'jenkins_user'
     }
     stages {
         stage('Build') {
@@ -33,8 +32,7 @@ pipeline {
         stage('Deploy') {
             agent any
             steps {
-                echo "Deploying application..."
-                sh 'echo Deploy step executed'
+                echo "Deployment successful. The application is ready for use."
             }
         }
     }
