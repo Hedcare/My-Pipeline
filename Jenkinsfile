@@ -1,26 +1,27 @@
 pipeline {
-    agent none
+    agent {
+        docker {
+            image 'maven:3.9.9-eclipse-temurin-21-alpine'
+            args '-v /C/ProgramData/Jenkins:/mnt'  // Usa una ruta absoluta en Windows
+            workDir '/mnt/workspace'  // Cambia el directorio de trabajo a una ruta absoluta
+        }
+    }
     stages {
         stage('Build') {
-            agent { docker { image 'maven:3.9.9-eclipse-temurin-21-alpine' } }
             steps {
                 echo "Building with Maven"
                 sh 'mvn clean install'
             }
         }
-
         stage('Test') {
-            agent { docker { image 'maven:3.9.9-eclipse-temurin-21-alpine' } }
             steps {
                 echo "Running tests with Maven"
                 sh 'mvn test'
             }
         }
-
         stage('Deploy') {
-            agent any
             steps {
-                echo "Deployment successful. The application is ready for use."
+                echo "Deployment successful."
             }
         }
     }
